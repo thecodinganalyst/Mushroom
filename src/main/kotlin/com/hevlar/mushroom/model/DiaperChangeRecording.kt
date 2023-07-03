@@ -10,11 +10,11 @@ class DiaperChangeRecording(
     @Id
     @GeneratedValue
     val id: Long,
-    override val dateTime: LocalDateTime,
-    val diaperStatus: DiaperStatus,
+    override var dateTime: LocalDateTime,
+    var diaperStatus: DiaperStatus,
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
-    val child: Child
+    var child: Child?
 ) : Recording {
     override fun getText(): String {
         return diaperStatus.name

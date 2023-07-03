@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface DiaperChangeRepository: JpaRepository<DiaperChangeRecording, Long> {
+    fun findByChildId(childId: Long): List<DiaperChangeRecording>
 }

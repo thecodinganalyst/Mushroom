@@ -1,30 +1,46 @@
 package com.hevlar.mushroom.service
 
+import com.hevlar.mushroom.controller.dto.SleepRecordingDto
+import com.hevlar.mushroom.model.Child
 import com.hevlar.mushroom.model.SleepRecording
 import com.hevlar.mushroom.repository.SleepRecordingRepository
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
+import java.time.Duration
+import java.time.LocalDateTime
 
 @Service
 class SleepRecordingService(val sleepRecordingRepository: SleepRecordingRepository) {
 
-    fun addSleepRecord(sleepRecording: SleepRecording): SleepRecording {
+    fun addSleepRecord(child: Child, sleepRecordingDto: SleepRecordingDto): SleepRecording {
+        val sleepRecording = SleepRecording(0, sleepRecordingDto.dateTime, sleepRecordingDto.until, child)
         return sleepRecordingRepository.save(sleepRecording)
     }
 
-    fun editSleepRecord(sleepRecording: SleepRecording): SleepRecording {
+    fun editSleepRecord(id: Long, sleepRecordingDto: SleepRecordingDto): SleepRecording {
+        val sleepRecording = sleepRecordingRepository.findByIdOrNull(id) ?: throw Exception()
+        sleepRecording.dateTime = sleepRecordingDto.dateTime
+        sleepRecording.until = sleepRecordingDto.until
         return sleepRecordingRepository.save(sleepRecording)
     }
 
-    fun listSleepRecords(): List<SleepRecording> {
-        return sleepRecordingRepository.findAll();
+    fun listSleepRecords(childId: Long): List<SleepRecording> {
+        return sleepRecordingRepository.findByChildId(childId)
     }
 
     fun getSleepRecord(id: Long): SleepRecording? {
-        return sleepRecordingRepository.findByIdOrNull(id);
+        return sleepRecordingRepository.findByIdOrNull(id)
     }
 
     fun deleteSleepRecord(id: Long) {
-        sleepRecordingRepository.deleteById(id);
+        sleepRecordingRepository.deleteById(id)
+    }
+
+    fun isChildAsleep(childId: Long, @Value("\${child.sleep.max.hours}") maxSleepHours: Int): Boolean{
+        val lastSleepRecord = sleepRecordingRepository.findTopByChildIdOrderByDateTimeDesc(childId) ?: throw Exception()
+        return if (lastSleepRecord.until != null){
+            false
+        } else Duration.between(lastSleepRecord.dateTime, LocalDateTime.now()).toHoursPart() <= maxSleepHours
     }
 }

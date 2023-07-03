@@ -16,13 +16,13 @@ import org.springframework.web.bind.annotation.RestController
 class ChildController(val childService: ChildService) {
 
     @PostMapping
-    fun addChild(@RequestBody child: Child): Child {
-        return childService.addChild(child)
+    fun addChild(@RequestBody childDto: Child): Child {
+        return childService.addChild(childDto)
     }
 
     @GetMapping("/{id}")
     fun getChild(@PathVariable("id") id: Long): Child? {
-        return childService.getChild(id);
+        return childService.getChild(id)
     }
 
     @GetMapping

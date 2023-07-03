@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface SleepRecordingRepository: JpaRepository<SleepRecording, Long> {
+    fun findByChildId(childId: Long): List<SleepRecording>
+    fun findTopByChildIdOrderByDateTimeDesc(childId: Long): SleepRecording?
 }

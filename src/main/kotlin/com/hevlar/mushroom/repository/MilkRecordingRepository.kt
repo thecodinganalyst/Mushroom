@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface MilkRecordingRepository: JpaRepository<MilkRecording, Long>{
+    fun findByChildId(id: Long): List<MilkRecording>
 }

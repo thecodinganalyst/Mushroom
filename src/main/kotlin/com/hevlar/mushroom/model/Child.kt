@@ -12,7 +12,7 @@ class Child (
     @Id
     @GeneratedValue
     val id: Long,
-    val name: String,
-    val dob: LocalDate,
+    var name: String,
+    var dob: LocalDate,
 ){
 }

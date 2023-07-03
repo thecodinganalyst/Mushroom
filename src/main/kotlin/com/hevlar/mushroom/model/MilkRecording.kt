@@ -10,13 +10,13 @@ class MilkRecording(
     @Id
     @GeneratedValue
     val id: Long,
-    override val dateTime: LocalDateTime,
-    override val until: LocalDateTime?,
-    val type: MilkType,
-    val amount: Int?,
+    override var dateTime: LocalDateTime,
+    override var until: LocalDateTime?,
+    var type: MilkType,
+    var amount: Int?,
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
-    val child: Child
+    var child: Child
     ) : DurationRecording {
 
     override fun getText(): String {

@@ -4,7 +4,7 @@ import java.time.Duration
 import java.time.LocalDateTime
 
 interface DurationRecording: Recording {
-    val until: LocalDateTime?
+    var until: LocalDateTime?
 
     fun getDurationText(): String {
         if(until == null) return ""
