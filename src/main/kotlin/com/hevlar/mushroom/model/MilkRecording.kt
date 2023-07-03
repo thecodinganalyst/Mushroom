@@ -1,8 +1,6 @@
 package com.hevlar.mushroom.model
 
 import jakarta.persistence.*
-import java.lang.StringBuilder
-import java.time.Duration
 import java.time.LocalDateTime
 
 @Entity
@@ -13,13 +11,13 @@ class MilkRecording(
     @GeneratedValue
     val id: Long,
     override val dateTime: LocalDateTime,
-    val until: LocalDateTime?,
+    override val until: LocalDateTime?,
     val type: MilkType,
     val amount: Int?,
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
     val child: Child
-    ) : Recording {
+    ) : DurationRecording {
 
     override fun getText(): String {
         return when(type){
@@ -35,18 +33,6 @@ class MilkRecording(
         return "$amount ml"
     }
 
-    private fun getDurationText(): String {
-        if(until == null) return "";
-        return Duration.between(dateTime, until).let {
-            val hour = it.toHoursPart()
-            val min = it.toMinutesPart()
-            when {
-                hour > 0 && min > 0 -> " ${hour}h ${min}m"
-                hour > 0 -> " ${hour}h"
-                min > 0 -> " ${min}m"
-                else -> " < 1m"
-            }
-        }
-    }
+
 
 }

@@ -11,9 +11,17 @@ class SleepRecording(
     @GeneratedValue
     val id: Long,
     override val dateTime: LocalDateTime,
-    val until: LocalDateTime?,
+    override val until: LocalDateTime?,
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
     val child: Child
-    ) : Recording {
+    ) : DurationRecording {
+    override fun getText(): String {
+        return if (until != null){
+            "sleep for ${getDurationText()}"
+        }else{
+            "fell asleep"
+        }
+    }
+
 }
