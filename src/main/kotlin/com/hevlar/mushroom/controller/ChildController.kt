@@ -1,7 +1,9 @@
 package com.hevlar.mushroom.controller
 
+import com.hevlar.mushroom.controller.dto.ChildDto
 import com.hevlar.mushroom.model.Child
 import com.hevlar.mushroom.service.ChildService
+import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -9,14 +11,16 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/child")
+@RequestMapping("/children")
 class ChildController(val childService: ChildService) {
 
     @PostMapping
-    fun addChild(@RequestBody childDto: Child): Child {
+    @ResponseStatus(HttpStatus.CREATED)
+    fun addChild(@RequestBody childDto: ChildDto): Child {
         return childService.addChild(childDto)
     }
 
@@ -31,8 +35,8 @@ class ChildController(val childService: ChildService) {
     }
 
     @PutMapping("/{id}")
-    fun editChild(@PathVariable("id") id: Long, @RequestBody child: Child): Child{
-        return childService.editChild(child)
+    fun editChild(@PathVariable("id") id: Long, @RequestBody childDto: ChildDto): Child{
+        return childService.editChild(id, childDto)
     }
 
     @DeleteMapping("/{id}")

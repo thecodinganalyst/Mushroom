@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
 
 @RestController
-@RequestMapping("/child/{childId}/diaper")
+@RequestMapping("/children/{childId}/diaper")
 class DiaperChangeController(val diaperChangeService: DiaperChangeService, val childService: ChildService) {
     @PostMapping
     fun addDiaperChange(@PathVariable("childId") childId: Long, @RequestBody diaperChangeDto: DiaperChangeDto): DiaperChangeRecording {

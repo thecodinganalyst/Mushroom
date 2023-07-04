@@ -1,8 +1,10 @@
 package com.hevlar.mushroom.model
 
+import com.hevlar.mushroom.model.validation.ValidDuration
 import java.time.Duration
 import java.time.LocalDateTime
 
+@ValidDuration
 interface DurationRecording: Recording {
     var until: LocalDateTime?
 

@@ -4,6 +4,9 @@ import com.hevlar.mushroom.controller.dto.SleepRecordingDto
 import com.hevlar.mushroom.model.Child
 import com.hevlar.mushroom.model.SleepRecording
 import com.hevlar.mushroom.repository.SleepRecordingRepository
+import jakarta.validation.ConstraintViolationException
+import jakarta.validation.Validator
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
@@ -11,10 +14,16 @@ import java.time.Duration
 import java.time.LocalDateTime
 
 @Service
-class SleepRecordingService(val sleepRecordingRepository: SleepRecordingRepository) {
+class SleepRecordingService(val sleepRecordingRepository: SleepRecordingRepository, @Autowired val validator: Validator) {
 
     fun addSleepRecord(child: Child, sleepRecordingDto: SleepRecordingDto): SleepRecording {
         val sleepRecording = SleepRecording(0, sleepRecordingDto.dateTime, sleepRecordingDto.until, child)
+
+        val violations = validator.validate(sleepRecording)
+        if (violations.isNotEmpty()) {
+            throw ConstraintViolationException(violations)
+        }
+
         return sleepRecordingRepository.save(sleepRecording)
     }
 
@@ -22,11 +31,18 @@ class SleepRecordingService(val sleepRecordingRepository: SleepRecordingReposito
         val sleepRecording = sleepRecordingRepository.findByIdOrNull(id) ?: throw Exception()
         sleepRecording.dateTime = sleepRecordingDto.dateTime
         sleepRecording.until = sleepRecordingDto.until
+
+        val violations = validator.validate(sleepRecording)
+        if (violations.isNotEmpty()) {
+            throw ConstraintViolationException(violations)
+        }
+
         return sleepRecordingRepository.save(sleepRecording)
     }
 
     fun listSleepRecords(childId: Long): List<SleepRecording> {
-        return sleepRecordingRepository.findByChildId(childId)
+        val result = sleepRecordingRepository.findAllByChildId(childId)
+        return result
     }
 
     fun getSleepRecord(id: Long): SleepRecording? {

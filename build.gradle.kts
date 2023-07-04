@@ -31,9 +31,13 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     compileOnly("org.projectlombok:lombok")
-    runtimeOnly("com.h2database:h2")
+    testRuntimeOnly("com.h2database:h2")
     annotationProcessor("org.projectlombok:lombok")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation ("org.mockito.kotlin:mockito-kotlin:3.2.0")
+    testImplementation("org.hamcrest:hamcrest:2.2")
+    implementation("org.springframework.boot:spring-boot-starter-validation")
+    runtimeOnly("org.mariadb.jdbc:mariadb-java-client-jre7:1.6.1")
 }
 
 tasks.withType<KotlinCompile> {

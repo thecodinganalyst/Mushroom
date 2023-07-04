@@ -33,6 +33,4 @@ class MilkRecording(
         return "$amount ml"
     }
 
-
-
 }

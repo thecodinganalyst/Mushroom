@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
 
 @RestController
-@RequestMapping("/child/{childId}/milk")
+@RequestMapping("/children/{childId}/milk")
 class MilkRecordingController(val milkRecordingService: MilkRecordingService, val childService: ChildService) {
 
     @PostMapping
