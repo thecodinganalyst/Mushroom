@@ -1,0 +1,27 @@
+networks:
+  mushroomNetwork:
+    driver: bridge
+services:
+  database:
+    image: mariadb:11
+    environment:
+      MARIADB_ROOT_PASSWORD_HASH: "*2470C0C06DEE42FD1618BB99005ADCA2EC9D1E19"
+      MARIADB_DATABASE: "mushroom"
+      MARIADB_USER: "mushroomApp"
+      MARIADB_PASSWORD_HASH: "*FC0B5F6C532FB6C5A02B68FB09C9B1A07F787979"
+    ports:
+      - "3305:3306"
+    volumes:
+      - /Users/dennis/mariadb/mushroom:/var/lib/mysql
+      - ./create_table.sql:/docker-entrypoint-initdb.d/create_table.sql
+    networks:
+      - mushroomNetwork
+  web:
+    build: .
+    ports:
+      - "8000:8080"
+    networks:
+      - mushroomNetwork
+    depends_on:
+      - database
+    restart: on-failure
