@@ -38,6 +38,7 @@ dependencies {
     testImplementation("org.hamcrest:hamcrest:2.2")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     runtimeOnly("org.mariadb.jdbc:mariadb-java-client-jre7:1.6.1")
+    testImplementation("ch.qos.logback:logback-classic:1.4.8")
 }
 
 tasks.withType<KotlinCompile> {

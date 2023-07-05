@@ -23,6 +23,7 @@ import java.time.LocalDateTime
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation::class)
 class MilkRecordingControllerTest {
 
@@ -34,7 +35,7 @@ class MilkRecordingControllerTest {
 
     lateinit var child: Child
 
-    @BeforeEach
+    @BeforeAll
     fun setup() {
         val childDto = ChildDto("John", LocalDate.of(2020,1, 1))
         val json = objectMapper.writeValueAsString(childDto)

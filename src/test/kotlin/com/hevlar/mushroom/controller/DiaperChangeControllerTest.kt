@@ -20,9 +20,11 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import java.time.LocalDate
 import java.time.LocalDateTime
+import org.slf4j.LoggerFactory
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation::class)
 class DiaperChangeControllerTest() {
 
@@ -32,9 +34,11 @@ class DiaperChangeControllerTest() {
     @Autowired
     private lateinit var objectMapper: ObjectMapper
 
+    private val logger = LoggerFactory.getLogger(DiaperChangeControllerTest::class.java)
+
     lateinit var child: Child
 
-    @BeforeEach
+    @BeforeAll
     fun setup() {
         val childDto = ChildDto("John", LocalDate.of(2020,1, 1))
         val json = objectMapper.writeValueAsString(childDto)
@@ -46,6 +50,7 @@ class DiaperChangeControllerTest() {
             .andReturn()
 
         child = objectMapper.readValue(result.response.contentAsString, Child::class.java)
+        logger.info("Created child with id = ${child.id}")
     }
 
     @Test

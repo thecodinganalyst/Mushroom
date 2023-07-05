@@ -21,6 +21,7 @@ import java.time.LocalDateTime
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation::class)
 class SleepRecordingControllerTest {
     @Autowired
@@ -31,7 +32,7 @@ class SleepRecordingControllerTest {
 
     private lateinit var child: Child
 
-    @BeforeEach
+    @BeforeAll
     fun setup() {
         val childDto = ChildDto("John", LocalDate.of(2020,1, 1))
         val json = objectMapper.writeValueAsString(childDto)
@@ -100,11 +101,11 @@ class SleepRecordingControllerTest {
         assertThat(sleepRecording.until, equalTo(sleepRecordingDto.until))
     }
 
-//    @Test
-//    @Order(5)
-//    fun `should delete sleep recording`() {
-//        mockMvc.perform(delete("/children/${child.id}/sleep/1"))
-//            .andExpect(status().isOk)
-//            .andReturn()
-//    }
+    @Test
+    @Order(5)
+    fun `should delete sleep recording`() {
+        mockMvc.perform(delete("/children/${child.id}/sleep/1"))
+            .andExpect(status().isOk)
+            .andReturn()
+    }
 }
