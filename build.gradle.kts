@@ -33,12 +33,14 @@ dependencies {
     compileOnly("org.projectlombok:lombok")
     testRuntimeOnly("com.h2database:h2")
     annotationProcessor("org.projectlombok:lombok")
+    annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation ("org.mockito.kotlin:mockito-kotlin:3.2.0")
     testImplementation("org.hamcrest:hamcrest:2.2")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     runtimeOnly("org.mariadb.jdbc:mariadb-java-client-jre7:1.6.1")
     testImplementation("ch.qos.logback:logback-classic:1.4.8")
+    implementation("org.springframework.boot:spring-boot-starter-security:3.1.1")
 }
 
 tasks.withType<KotlinCompile> {
